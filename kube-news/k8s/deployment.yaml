@@ -1,5 +1,4 @@
 # Postgre
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,21 +13,17 @@ spec:
         app: postgre
     spec:
       containers:
-      - name: postegre
-        image: postgres:15.0
-        ports:
-          - containerPort: 5432
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        env:
-          - name: POSTGRES_PASSWORD
-            value: "pg123"
-          - name: POSTGRES_USER
-            value: "kubenew"
-          - name: POSTGRES_DB
-            value: "kubenew"
+        - name: postgre
+          image: postgres:15.0
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "pg123"
+            - name: POSTGRES_USER
+              value: "kubenew"
+            - name: POSTGRES_DB
+              value: "kubenew"
 ---
 apiVersion: v1
 kind: Service
@@ -40,7 +35,6 @@ spec:
   ports:
   - port: 5432
 ---
-
 # Aplicação WEB
 apiVersion: apps/v1
 kind: Deployment
@@ -56,23 +50,19 @@ spec:
         app: kubenew
     spec:
       containers:
-      - name: kubenew
-        image: dianini/conversao:1
-        ports: 
-          - containerPort: 8080
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        env:
-          - name: DB_DATABASE
-            value: "kubenew"
-          - name: DB_USERNAME
-            value: "kubenew"
-          - name: DB_PASSWORD
-            value: "pg123"
-          - name: DB_HOST
-            value: "postgre"
+        - name: kubenew
+          image: dianini/kubnew:1
+          ports: 
+            - containerPort: 8080
+          env:
+            - name: DB_DATABASE
+              value: "kubenew"
+            - name: DB_USERNAME
+              value: "kubenew"
+            - name: DB_PASSWORD
+              value: "pg123"
+            - name: DB_HOST
+              value: "postgre"
 ---
 apiVersion: v1
 kind: Service
@@ -82,7 +72,6 @@ spec:
   selector:
     app: kubenew
   ports:
-  - port: 80
-    targetPort: 8080
-    nodePort: 30000
+    - port: 80
+      targetPort: 8080
   type: NodePort
