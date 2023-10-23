@@ -41,6 +41,11 @@ jobs:
     - name: Autenticar na AWS
       run: echo "Autenticar na AWS"
     - name: Configurar o Kubeconfig
-      run: echo "Configurar o Kubeconfig"
-    - name: Aplicar o deploy
-      run: echo "Executar o kubectl apply"
+      run: echo "Configurar o Kubeconfig" # aws eks update-kubeconfig --name imersao --region ${{ secrets.AWS_REGION }}
+   # - name: Deploy to Kubernetes cluster
+    #  uses: Azure/k8s-deploy@v4.9
+    #  with:
+     #   manifests: |
+      #    ./kube-news/k8s/deployment.yaml
+       # images: |
+        #  dianini/kubnew:${{ github.run_number }} 
